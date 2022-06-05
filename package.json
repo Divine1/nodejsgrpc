@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "pb:gen": "./gen.sh greet",
+    "pb:gen": "./gen.sh greet calculator",
     "greet:server" : "node greet/server/index.js",
-    "greet:client" : "node greet/client/index.js"
+    "greet:client" : "node greet/client/index.js",
+    "calc:server" : "node calculator/server/index.js",
+    "calc:client" : "node calculator/client/index.js"
   },
   "keywords": [],
   "author": "",
