@@ -24,6 +24,30 @@ function doGreetManyTimes(client){
     call.on("data",(res)=>{
         console.log("greetmanytimes ",res.getResult());
     })
+
+    call.on('end',()=>{
+        console.log("greetmanytimes ended")
+    })
+}
+
+function doLongGreet(client){
+    console.log("doLongGreet was invoked");
+    const names = ["lion","tiger","giraffe"];
+    const call = client.longGreet((err,res)=>{
+        if(err){
+            console.log("err ",err);
+        }
+        else{
+            console.log("longGreet ",res.getResult());
+        }
+    });
+
+    names.map((name)=>{
+        return new GreetRequest().setFirstName(name);
+    }).forEach((req)=>{
+        call.write(req);
+    });
+    call.end();
 }
 
 function main(){
@@ -32,6 +56,7 @@ function main(){
 
     //doGreet(client);
     doGreetManyTimes(client);
+   // doLongGreet(client);
     client.close();
 }
 main();

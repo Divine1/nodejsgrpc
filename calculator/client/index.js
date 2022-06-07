@@ -19,7 +19,7 @@ function doSum(client){
 }
 
 function doPrimes(client){
-    const req = new PrimeRequest().setNumber(12390392840);
+    const req = new PrimeRequest().setNumber(97);
     const call = client.primes(req);
 
     call.on("data",(res)=>{
