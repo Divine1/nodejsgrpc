@@ -1,6 +1,7 @@
 const {SumResponse} = require("./../proto/sum_pb.js");
 const {PrimeResponse} = require("./../proto/primes_pb");
 const {AvgResponse } = require("./../proto/avg_pb");
+const {MaxResponse} = require("./../proto/max_pb");
 // this method name should be same as the package name present in greet.proto file
 exports.sum = (call,callback)=>{
     console.log("calculator was invoked")
@@ -53,4 +54,21 @@ exports.avg = (call,callback)=>{
         
     })
 
+}
+exports.max = (call,_)=>{
+    console.log("max was invoked");
+
+    let max=0;
+    call.on("data",(req)=>{
+        const number = req.getNumber();
+        console.log("number ",number)
+        if(number > max){
+            max=number;
+            const res = new MaxResponse().setResult(number);
+            call.write(res);
+        }
+    });
+    call.on("end",()=>{
+        call.end();
+    })
 }

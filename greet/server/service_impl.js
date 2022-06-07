@@ -32,3 +32,17 @@ exports.longGreet = (call,callback)=>{
         callback(null,res);
     })
 }
+
+exports.greetEveryone = (call,_)=>{
+    console.log("greetEveryone is invoked");
+
+    call.on("data",(req)=>{
+        console.log("received request ",req)
+        const res = new pb.GreetResponse().setResult(`hey ${req.getFirstName()}`);
+        console.log("sending response ",res,res.getResult());
+        call.write(res);
+    })
+    call.on("end",()=>{
+        call.end();
+    })
+};
