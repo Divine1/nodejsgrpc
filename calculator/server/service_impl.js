@@ -1,7 +1,10 @@
+const grpc = require("@grpc/grpc-js");
 const {SumResponse} = require("./../proto/sum_pb.js");
 const {PrimeResponse} = require("./../proto/primes_pb");
 const {AvgResponse } = require("./../proto/avg_pb");
 const {MaxResponse} = require("./../proto/max_pb");
+
+const {SqrtResponse} = require("./../proto/sqrt_pb")
 // this method name should be same as the package name present in greet.proto file
 exports.sum = (call,callback)=>{
     console.log("calculator was invoked")
@@ -71,4 +74,22 @@ exports.max = (call,_)=>{
     call.on("end",()=>{
         call.end();
     })
+}
+
+exports.sqrt = (call,callback)=>{
+    console.log("sqrt was invoked");
+    const number = call.request.getNumber();
+
+    if(number<0){
+        callback({
+            code : grpc.status.INVALID_ARGUMENT,
+            message : `Number cannot be negative, received ${number}`
+        })
+    }
+    else{
+        const response = new SqrtResponse()
+        .setResult(Math.sqrt(number));
+
+        callback(null,response);
+    }
 }
